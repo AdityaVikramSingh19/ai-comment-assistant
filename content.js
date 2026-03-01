@@ -56,21 +56,10 @@ button.addEventListener("click", () => {
 }
 
 function getPostContent() {
-    const postComponent = document.querySelector("shreddit-post-text-body");
-    if (!postComponent) {
-        console.log("Post component not found");
-        return null;
-    }
+    const article = document.querySelector('[property="schema:articleBody"]');
 
-    const shadow = postComponent.shadowRoot;
-    if (!shadow) {
-        console.log("Shadow root not found");
-        return null;
-    }
-
-    const article = shadow.querySelector('[property="schema:articleBody"]');
     if (!article) {
-        console.log("Article body not found inside shadow");
+        console.log("Article body not found in main DOM");
         return null;
     }
 
