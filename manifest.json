@@ -3,7 +3,7 @@
   "name": "AI Comment Assistant",
   "version": "1.0",
   "description": "Generate AI-powered comment drafts on Reddit and Instagram.",
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["activeTab", "scripting", "storage"],
   "host_permissions": [
     "https://www.reddit.com/*",
     "https://www.instagram.com/*"
@@ -20,5 +20,8 @@
       "js": ["content.js"],
       "css": ["styles.css"]
     }
-  ]
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
 }
