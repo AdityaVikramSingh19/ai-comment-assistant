@@ -42,8 +42,6 @@ function addAIButton() {
 });
 
 button.addEventListener("click", () => {
-    console.log("AI button clicked");
-
     const postText = getPostContent();
 
     if (!postText) {
@@ -51,7 +49,19 @@ button.addEventListener("click", () => {
         return;
     }
 
-    showPopup(postText);
+    showLoadingPopup();
+
+    chrome.runtime.sendMessage(
+        { type: "GENERATE_REPLIES", postText },
+        (response) => {
+            if (!response || !response.success) {
+                showErrorPopup(response?.error || "Generation failed");
+                return;
+            }
+
+            showReplyPopup(response.replies);
+        }
+    );
 });
 
 
@@ -146,6 +156,79 @@ function showPopup(postText) {
     popup.appendChild(closeBtn);
 
     document.body.appendChild(popup);
+}
+function showLoadingPopup() {
+    removePopup();
+
+    const popup = document.createElement("div");
+    popup.id = "ai-popup";
+    popup.style = basePopupStyle();
+    popup.innerText = "Generating replies...";
+
+    document.body.appendChild(popup);
+}
+
+function showErrorPopup(error) {
+    removePopup();
+
+    const popup = document.createElement("div");
+    popup.id = "ai-popup";
+    popup.style = basePopupStyle();
+    popup.innerText = "Error: " + error;
+
+    document.body.appendChild(popup);
+}
+
+function showReplyPopup(replies) {
+    removePopup();
+
+    const popup = document.createElement("div");
+    popup.id = "ai-popup";
+    popup.style = basePopupStyle();
+
+    popup.innerHTML = "<h4>Choose a reply</h4>";
+
+    replies.forEach(reply => {
+        const option = document.createElement("div");
+        option.innerText = reply;
+        option.style.marginBottom = "10px";
+        option.style.padding = "8px";
+        option.style.background = "#2a2a2a";
+        option.style.borderRadius = "6px";
+        option.style.cursor = "pointer";
+
+        option.onclick = () => {
+            insertComment(reply);
+            popup.remove();
+        };
+
+        popup.appendChild(option);
+    });
+
+    document.body.appendChild(popup);
+}
+
+function removePopup() {
+    const existing = document.getElementById("ai-popup");
+    if (existing) existing.remove();
+}
+
+function basePopupStyle() {
+    return `
+        position: fixed;
+        bottom: 200px;
+        right: 30px;
+        width: 320px;
+        max-height: 400px;
+        overflow-y: auto;
+        background: #1e1e1e;
+        color: white;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+        z-index: 9999999;
+        font-size: 14px;
+    `;
 }
 
 setInterval(detectCommentBox, 2000);
