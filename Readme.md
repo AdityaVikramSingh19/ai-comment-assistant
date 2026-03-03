@@ -9,7 +9,7 @@ You can select one, and it automatically inserts the text into the comment box.
 
 This project was built to improve my JavaScript and browser extension skills.
 
-What It Can Do
+#What It Can Do
 
 Detect Reddit comment box automatically
 
@@ -23,7 +23,7 @@ Insert selected reply into Reddit editor
 
 Store OpenAI API key securely using Chrome storage
 
-How It Works
+#How It Works
 
 The extension has three main parts:
 
@@ -32,38 +32,38 @@ The extension has three main parts:
 Runs inside Reddit pages.
 It:
 
-Detects the comment box
+  Detects the comment box
 
-Adds the floating AI button
+  Adds the floating AI button
 
-Extracts post content
+  Extracts post content
 
-Displays reply popup
+  Displays reply popup
 
-Inserts selected text into the editor
+  Inserts selected text into the editor
 
 2. background.js
 
 Handles API requests.
 It:
 
-Reads the saved API key
+  Reads the saved API key
 
-Sends request to OpenAI
+  Sends request to OpenAI
 
-Returns generated replies
+  Returns generated replies
 
-The API key is never exposed to the webpage.
+  The API key is never exposed to the webpage.
 
 3. popup.html
 
 Simple dashboard to:
 
-Enter OpenAI API key
+  Enter OpenAI API key
 
-Save it using Chrome storage
+  Save it using Chrome storage
 
-How To Use
+#How To Use
 
 Load the extension in Chrome (Developer Mode → Load Unpacked).
 
@@ -81,7 +81,7 @@ Select a reply.
 
 Post it manually.
 
-Why I Built This
+#Why I Built This
 
 I wanted to:
 
